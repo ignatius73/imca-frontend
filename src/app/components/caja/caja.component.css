@@ -1,0 +1,94 @@
+.contenido {
+    display: flex;
+    flex-direction: column;
+    width: 80vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.debito {
+    color: red;
+    width: 15%;
+}
+
+.fecha {
+    width: 15%;
+}
+
+.detalle {
+    width: 60%;
+}
+
+.movimiento {
+    width: 15;
+}
+
+.saldo {
+    width: 15;
+}
+
+.titulo {
+    color: rgba(77, 76, 73, 0.933);
+}
+
+.formulario {
+    display: flex;
+    width: 80vw;
+    flex-wrap: nowrap;
+}
+
+form {
+    width: 100%;
+    justify-items: flex-end;
+}
+
+.formulario input {
+    line-height: 1.3;
+    border: 1px solid cornflowerblue;
+    padding-top: 0.4em;
+    padding-bottom: 0.6em;
+    border-radius: 5px;
+    flex-grow: 1;
+}
+
+.input-detalle {
+    width: 100%;
+    margin-right: 23px;
+}
+
+.input-importe {
+    width: 100%;
+}
+
+.input-importe-negativo {
+    width: 100%;
+    color: crimson;
+}
+
+.botonera {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1em;
+}
+
+.error {
+    color: rgb(185, 44, 44);
+    font-style: italic;
+    font-weight: bold;
+}
+
+.saldo1 {
+    display: flex;
+    width: 80vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.saldo1 h2,
+h5 {
+    display: inline;
+}
+
+.negativo {
+    color: crimson;
+}

@@ -1,0 +1,57 @@
+<app-cabecera></app-cabecera>
+<app-navbar></app-navbar>
+
+<div class="contenido">
+    <form class="d-flex">
+        <input class="form-control me-2" type="text" name="search" #buscarDato placeholder="Buscá por DNI" aria-label="Search" [(ngModel)]="filtrar">
+
+        <button class="btn btn-outline-danger" type="button" (click)="cargarNuevoAlumno()">Cargar Más</button>
+    </form>
+    <!--<form class="search" (ngSubmit)="buscar()">
+            <input type="text" class="form-control" placeholder="Search.." name="search" #buscarDato [(ngModel)]="filtrar">
+            <button type="submit"><i class="fa fa-search"></i></button>
+
+        </form>-->
+
+
+    <div *ngIf="alumnos.alumnos.length > 0">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope='col' style="display:none">ID</th>
+                    <th scope="col">NOMBRE</th>
+                    <th scope="col">DNI</th>
+                    <th scope="col">EDAD</th>
+                    <th scope="col">DIRECCION</th>
+                    <th scope="col">EMAIL</th>
+                    <th scope="col">TELÉFONO</th>
+                    <th scope="col">COBRAR</th>
+                    <th scope="col">EDITAR</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let a of alumnos.alumnos | filter:filtrar">
+                    <td #id style="display:none">{{ a._id }}</td>
+                    <td>{{ a.nombre }}</td>
+                    <td>{{ a.dni }}</td>
+                    <td>{{ a.edad }}</td>
+                    <td>{{ a.direccion }}</td>
+                    <td>{{ a.email }}</td>
+                    <td>{{ a.telefono }}</td>
+                    <td><a href="javascript: void(0);" (click)="cobrar( a._id )"><i class="fas fa-cash-register"></i></a></td>
+                    <td>
+                        <a href='javascript: void(0);' (click)="editar(a._id)"><i class="fas fa-edit"></i></a>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div *ngIf="alumnos.alumnos.length == 0">
+        <span><h4>No hay alumnos cargados, quieres cargar uno?</h4></span>
+        <button (click)="cargarNuevoAlumno()" type="button">Sí</button>
+
+    </div>
+</div>

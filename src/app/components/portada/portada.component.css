@@ -1,0 +1,32 @@
+.contenedor {
+    display: flex;
+    flex-direction: column;
+}
+
+.portada {
+    width: 100vw;
+    height: 100vh;
+}
+
+.portada img {
+    width: 100vw;
+    height: 100vh;
+}
+
+.pagina1 {
+    display: flex;
+    padding: 1em;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagina1 button {
+    padding: 1em;
+    margin: 1em;
+}
+
+.pagina1 img {
+    width: 15vw;
+    max-height: 15vh;
+}

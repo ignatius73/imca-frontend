@@ -1,0 +1,330 @@
+.marco {
+    display: flex;
+    width: 98vw;
+    flex-direction: row;
+}
+
+.remito,
+.remitoCopia {
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+    height: 95vh;
+    line-height: 1;
+    margin-left: auto;
+    margin-right: auto;
+    border: solid 1px black;
+}
+
+.cabecera {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cabecera img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    max-height: 150px;
+}
+
+.cuerpo {
+    display: flex;
+    flex-direction: column;
+    padding-top: 1em;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.recibo1 {
+    justify-content: center;
+}
+
+.recibo {
+    color: black;
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border: 2px solid black;
+    padding: 0.5em;
+    margin-bottom: 1em;
+}
+
+.datos {
+    margin-top: 2em;
+    width: 100%;
+    line-height: 1.2;
+    text-align: left;
+}
+
+.datos h5 {
+    font-size: 1em;
+    font-weight: 500;
+}
+
+.datosAlumno {
+    float: left;
+    width: 50%;
+    text-align: left;
+}
+
+.datosEscuela {
+    float: left;
+    padding-left: 1em;
+    width: 50%;
+    text-align: left;
+}
+
+.detalle {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    flex-grow: 1;
+}
+
+.fecha {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.fecha input {
+    width: 15%;
+    margin: 5px 0px 5px 5px;
+}
+
+.total {
+    margin-top: 2em;
+    display: flex;
+    width: 100vw;
+    justify-content: flex-end;
+}
+
+.total input {
+    width: 30%;
+    margin: 2px 5px 5px 5px;
+}
+
+.cuerpoRemito {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 35vh;
+    overflow-y: scroll;
+}
+
+.fila {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.detalles {
+    justify-self: end;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.detallesCopia {
+    width: 40vw;
+    text-align: left;
+    line-height: 1.2;
+}
+
+.titulos {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 20px;
+}
+
+.importes {
+    display: flex;
+    flex-direction: column;
+    width: 15%;
+    flex-basis: content;
+    border: solid 1px grey;
+    text-align: center;
+}
+
+.importesCopia {
+    display: flex;
+    flex-direction: column;
+    width: 8vw;
+    flex-basis: content;
+    border: solid 1px grey;
+    text-align: center;
+}
+
+.importes div {
+    flex-grow: 1;
+}
+
+.botonera {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.remitoCopia {
+    display: none;
+}
+
+.numero {
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.fecha {
+    align-items: center;
+    font-weight: bold;
+}
+
+@media print {
+    .marco {
+        display: flex;
+        width: 100vw;
+        flex-direction: row;
+    }
+    .remito,
+    .remitoCopia {
+        display: flex;
+        flex-direction: column;
+        width: 49vw;
+        height: 95vh;
+        line-height: 1;
+        border: solid 1px black;
+    }
+    .cabecera {
+        display: flex;
+        width: 80%;
+        height: 100px;
+        margin-left: auto;
+        margin-right: auto;
+        justify-content: center;
+        border: 1px solid black;
+    }
+    .cabecera img {
+        object-fit: fill;
+        max-height: 120px;
+    }
+    .cuerpo {
+        display: flex;
+        flex-direction: column;
+        padding-top: 1em;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+    .recibo1 {
+        justify-content: center;
+    }
+    .recibo {
+        color: black;
+        font-weight: bold;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        border: 2px solid black;
+        padding: 0.5em;
+        margin-bottom: 1em;
+    }
+    .datos {
+        margin-top: 2em;
+        width: 100%;
+        line-height: 1.2;
+        text-align: left;
+        border: solid 1px black;
+    }
+    .datos h5 {
+        font-size: 12px;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+    .datosAlumno {
+        float: left;
+        width: 50%;
+        text-align: left;
+    }
+    .datosEscuela {
+        float: left;
+        padding-left: 1em;
+        width: 50%;
+        text-align: left;
+    }
+    .detalle {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .fecha {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+    .fecha input {
+        width: 15%;
+        margin: 5px 0px 5px 5px;
+    }
+    .total {
+        margin-top: 2em;
+        display: flex;
+        width: 100vw;
+        justify-content: flex-end;
+    }
+    .total input {
+        width: 30%;
+        margin: 2px 5px 5px 5px;
+    }
+    .cuerpoRemito {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 35vh;
+        overflow-y: hidden;
+    }
+    .fila {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .detalles {
+        justify-self: end;
+        flex-grow: 1;
+    }
+    .titulos {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-right: 20px;
+    }
+    .importes {
+        display: flex;
+        flex-direction: column;
+        width: 20%;
+        flex-basis: content;
+        border: solid 1px grey;
+    }
+    .importes div {
+        flex-grow: 1;
+    }
+    .botonera {
+        display: none;
+        margin-top: auto;
+        margin-bottom: 5px;
+    }
+    .fecha {
+        align-items: center;
+        font-weight: bold;
+    }
+    .detallesCopia {
+        width: 80%;
+        text-align: left;
+        line-height: 1.2;
+    }
+}

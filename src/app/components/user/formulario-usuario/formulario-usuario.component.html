@@ -1,0 +1,93 @@
+<div class="contenedor">
+    <h4>Formularios <small>data</small></h4>
+    <hr>
+    <form [formGroup]="forma" (ngSubmit)="enviar()">
+
+        <div>
+            <!--<div class="form-group row">-->
+            <label class="col-2 col-form-label" name="Nombre">Nombre</label>
+            <!--<div class="col-8">-->
+            <input formControlName="nombre" name="nombre" class="form-control" type="text" placeholder="Nombre" [(ngModel)]="alumno.nombre">
+            <div class="error" *ngIf="errores.nombre">{{ errores.nombre.message }}</div>
+            <!--</div>-->
+
+            <!--</div>-->
+            <br>
+            <label class="col-2 col-form-label" name="Apellido">Apellido</label>
+            <!--<div class="col-8">-->
+            <input formControlName="apellido" name="apellido" class="form-control" type="text" placeholder="Apellido" [(ngModel)]="alumno.apellido">
+            <div class="error" *ngIf="errores.apellido">{{ errores.apellido.message }}</div>
+            <!--</div>-->
+
+            <!--</div>-->
+            <br>
+
+            <label class="col-2 col-form-label" name="Nombre">DNI</label>
+            <!--<div class="col-8">-->
+            <input formControlName="dni" name="dni" class="form-control" type="text" placeholder="Nombre" [(ngModel)]="alumno.dni">
+            <div class="error" *ngIf="errores.dni">{{ errores.dni.message }}</div>
+
+            <!--</div>-->
+
+            <!--</div>-->
+            <br>
+            <!--<div class="form-group row">-->
+            <label class="col-2 col-form-label" name="Edad">Edad</label>
+            <!--<div class="col-8">-->
+
+            <input formControlName="edad" name="edad" class="form-control" type="text" placeholder="Edad" [(ngModel)]="alumno.edad">
+            <div class="error" *ngIf="errores.edad">{{ errores.edad.message }}</div>
+
+            <!--</div>-->
+            <br>
+            <!--<div class="form-group row">-->
+            <label class="col-2 col-form-label" name="Nombre">Dirección</label>
+            <!--<div class="col-8">-->
+            <input name="nombre" formControlName='direccion' class="form-control" type="text" placeholder="Dirección" [(ngModel)]="alumno.direccion">
+            <div class="error" *ngIf="errores.direccion">{{ errores.direccion.message }}</div>
+            <!--</div>-->
+            <!--</div>-->
+            <br>
+            <!--<div class="form-group row">-->
+            <label class="col-2 col-form-label" name="Nombre">Email</label>
+            <!--<div class="col-8">-->
+
+            <input name="email" formControlName="email" class="form-control" type="text" placeholder="Email" [(ngModel)]="alumno.email">
+            <div class="error" *ngIf="errores.email">{{ errores.email.message }}</div>
+            <!--</div>-->
+            <!--</div>-->
+            <br>
+
+            <label class="col-2 col-form-label" name="Nombre">Teléfono</label>
+            <!--<div class="col-8">-->
+
+            <input name="telefono" formControlName="telefono" class="form-control" type="text" placeholder="Teléfono" [(ngModel)]="alumno.telefono">
+            
+            <!--</div>-->
+            <!--</div>-->
+            <br>
+
+            <!--<div class="form-group row">-->
+            <label class="col-2 col-form-label" name="foto">Foto</label>
+            <!--<div class="col-8">-->
+
+            <input name="img" formControlName="img" accept=".png,.jpg,.jpeg" class="form-control" type="file" (change)="selectImage($event)" placeholder="Foto">
+            <!--</div>-->
+            <div *ngIf="imgPreview != null">
+                <img [src]="imgPreview">
+            </div>
+        </div>
+        <br>
+
+        <br>
+        <br>
+
+
+        <button type="submit" class="btn btn-outline-primary">
+        Guardar
+      </button>
+        <!-- </div>-->
+    </form>
+
+
+</div>

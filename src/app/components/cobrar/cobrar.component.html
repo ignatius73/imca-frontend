@@ -1,0 +1,199 @@
+<div class="marco">
+    <div class="remito" id="remito">
+        <div class="cabecera">
+            <img src="../../../assets/banner.jpg">
+        </div>
+        <div class="cuerpo">
+            <div class="recibo1"><span class="recibo">Recibo N° {{ recibo.nroRecibo }}</span></div>
+            <div class="datos">
+
+                <div class="datosAlumno">
+                    <h5>Nombre: {{ this.alumnos.alumno.nombre + " " + this.alumnos.alumno.apellido }} </h5>
+                    <h5>Dirección: {{ this.alumnos.alumno.direccion }} </h5>
+                </div>
+                <div class="datosEscuela">
+                    <h5>Instituto Municipal de Cerámica</h5>
+                    <h5>Dirección: Av. Mitre 2724 - Tel.: 7720-3942</h5>
+                </div>
+
+            </div>
+
+
+
+            <div class="detalle">
+                <form autocomplete="off" [formGroup]="forma" (ngSubmit)="procesar()">
+                    <div class="fecha">
+                        <label class="fecha">Fecha</label>
+                        <input name="dia" class="form-control" type="text" placeholder="Día" value="{{ fecha | date: 'dd' }}">
+                        <input name="mes" class="form-control" type="text" placeholder="Mes" value="{{ fecha | date: 'MM' }}">
+                        <input name="anio" class="form-control" type="text" placeholder="Año" value="{{ fecha | date: 'yyyy' }}">
+
+                    </div>
+                    <br>
+                    <div class="titulos">
+                        <h6>Descripción</h6>
+                        <h6>Importes</h6>
+                    </div>
+                    <div *ngIf="print">
+                        <div class="cuerpoRemito">
+
+                            <div class="fila">
+
+                                <div class="detalles">
+                                    <div class="detallesCopia" *ngFor="let detalle of detalles1">
+                                        <span>{{ detalle }}</span>
+
+                                    </div>
+                                </div>
+
+                                <div class="importesCopia">
+                                    <div class="inputs" *ngFor="let importe of importes1">
+                                        <span>{{ importe }}</span>
+                                    </div>
+                                </div>
+                                <!-- Cierre fila-->
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="total">
+                                <label for="total" class="col-sm-2 col-form-label">Total</label>
+                                <input class="form-control" type="number" id='total' placeholder="total" [value]="total">
+                            </div>
+
+                            <!--Cierro row-->
+                        </div>
+                    </div>
+                    <div *ngIf="!print">
+                        <div class="cuerpoRemito">
+
+                            <div class="fila">
+
+                                <div class="detalles" formArrayName="detalles">
+                                    <div class="textareas" *ngFor="let control of detalles.controls; let i = index">
+                                        <textarea #detalle autosize [formControlName]="i" name="detalle" class="form-control" type="textarea" placeholder="Detalle"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="importes" formArrayName="importes">
+                                    <div class="inputs" *ngFor="let control of importes.controls; let i = index">
+                                        <input [formControlName]="i" name="importe" class="form-control" type="number" placeholder="Importes">
+                                    </div>
+                                </div>
+                                <!-- Cierre fila-->
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="total">
+                                <label for="totalimporte" class="col-sm-2 col-form-label">Total</label>
+                                <input formControlName="totalimporte" name="totalimporte" class="form-control" type="number" id='total' placeholder="total">
+                            </div>
+
+                            <!--Cierro row-->
+                        </div>
+                    </div>
+                    <br>
+                    <div class="botonera" data-html2canvas-ignore>
+                        <button class="btn btn-outline-primary" type="button" (click)="agregarFila(valor)">Agregar Fila</button>
+
+
+
+                        <button type="submit" class="btn btn-outline-primary" (click)="cobrar()">Cobrar</button>
+
+
+                        <button *ngIf="recibo.nroRecibo !== undefined" type="submit" class="btn btn-outline-primary" (click)="imprimir()">Imprimir</button>
+                        <button type="button" class="btn btn-outline-primary" (click)="volver()">Volver</button>
+
+                    </div>
+
+                </form>
+                <!--Cierre detalle-->
+            </div>
+            <!-- Cierro div remito-->
+        </div>
+        <!--cierro div remito-->
+    </div>
+
+    <div class="remitoCopia">
+        <div class="cabecera">
+            <img src="../../../assets/banner.jpg">
+        </div>
+        <div class="cuerpo">
+            <div class="recibo1"><span class="recibo">Recibo N° {{ recibo.nroRecibo }}</span></div>
+            <div class="datos">
+
+                <div class="datosAlumno">
+                    <h5>Nombre: {{ this.alumnos.alumno.nombre + " " + this.alumnos.alumno.apellido }} </h5>
+                    <h5>Dirección: {{ this.alumnos.alumno.direccion }} </h5>
+                </div>
+                <div class="datosEscuela">
+                    <h5>Instituto Municipal de Cerámica</h5>
+                    <h5>Dirección: Av. Mitre 2724 - Tel.: 4204-8223</h5>
+                </div>
+
+            </div>
+
+
+
+            <div class="detalle">
+                <!--<form autocomplete="off" [formGroup]="forma1" (ngSubmit)="procesar()">-->
+                <div class="fecha">
+                    <label class="fecha">Fecha</label>
+                    <input name="dia" class="form-control" type="text" placeholder="Día" value="{{ fecha | date: 'dd' }}">
+                    <input name="mes" class="form-control" type="text" placeholder="Mes" value="{{ fecha | date: 'MM' }}">
+                    <input name="anio" class="form-control" type="text" placeholder="Año" value="{{ fecha | date: 'yyyy' }}">
+                </div>
+                <br>
+                <div class="titulos">
+                    <h6>Descripción</h6>
+                    <h6>Importes</h6>
+                </div>
+
+                <div class="cuerpoRemito">
+
+                    <div class="fila">
+
+                        <div class="detalles">
+                            <div class="detallesCopia" *ngFor="let detalle of detalles1">
+                                <span>{{ detalle }}</span>
+
+                            </div>
+                        </div>
+
+                        <div class="importesCopia">
+                            <div class="inputs" *ngFor="let importe of importes1">
+                                <span>{{ importe }}</span>
+                            </div>
+                        </div>
+                        <!-- Cierre fila-->
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="total">
+                        <label for="total" class="col-sm-2 col-form-label">Total</label>
+                        <input class="form-control" type="number" id='total' placeholder="total" [value]="total">
+                    </div>
+
+                    <!--Cierro row-->
+                </div>
+                <!--<br>
+                <div class="botonera" data-html2canvas-ignore>
+                    <button class="btn btn-outline-primary" type="button" (click)="agregarFila(valor)">Agregar Fila</button>
+
+
+
+                    <button type="submit" class="btn btn-outline-primary" (click)="imprimir()">Imprimir</button>
+
+
+                </div>
+
+                 </form>-->
+                <!--Cierre detalle-->
+            </div>
+            <!-- Cierro div remito>-->
+        </div>
+
+    </div>
+</div>
