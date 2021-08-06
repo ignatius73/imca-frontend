@@ -1,9 +1,11 @@
-<div class="contenedor">
-    <h4>Formularios <small>data</small></h4>
+<app-cabecera></app-cabecera>
+<app-navbar></app-navbar>
+<div class="contenido">
+    <h4>Datos del Alumne</h4>
     <hr>
     <form [formGroup]="forma" (ngSubmit)="enviar()">
 
-        <div>
+
             <!--<div class="form-group row">-->
             <label class="col-2 col-form-label" name="Nombre">Nombre</label>
             <!--<div class="col-8">-->
@@ -62,7 +64,7 @@
             <!--<div class="col-8">-->
 
             <input name="telefono" formControlName="telefono" class="form-control" type="text" placeholder="Teléfono" [(ngModel)]="alumno.telefono">
-            
+
             <!--</div>-->
             <!--</div>-->
             <br>
@@ -76,7 +78,7 @@
             <div *ngIf="imgPreview != null">
                 <img [src]="imgPreview">
             </div>
-        </div>
+
         <br>
 
         <br>

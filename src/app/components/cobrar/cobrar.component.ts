@@ -24,7 +24,7 @@ import { Caja } from '../../interfaces/caja';
   selector: 'app-cobrar',
   templateUrl: './cobrar.component.html',
   styleUrls: ['./cobrar.component.css']
-  
+
 })
 export class CobrarComponent implements OnInit {
   forma: FormGroup;
@@ -43,39 +43,40 @@ export class CobrarComponent implements OnInit {
   fecha: Date;
   print: boolean = false;
   movCaja: Caja = {};
-  
-  
-  
+
+
+
   constructor( public alumnos:AlumnosService, private fb:FormBuilder, public recibos:RecibosService, private route:Router, private caja:CajasService ) {
       if ( this.alumnos.alumno._id == undefined ){
         this.route.navigate(['/user']);
 
       }
-   
+
    }
 
   ngOnInit(): void {
     this.crearFormulario();
     this.fecha = new Date();
+    console.log(this.fecha);
   }
 
 
 procesar(){}
   //getters
-  
+
   get detalles() {
     return this.forma.get('detalles') as FormArray;
-   
+
   }
   get importes() {
     return this.forma.get('importes') as FormArray;
-    
+
   }
 
- 
+
 
   setTotal(){
-    
+
     this.forma.controls['totalimporte'].setValue( this.total );
 
   }
@@ -85,81 +86,81 @@ procesar(){}
       detalles: this.fb.array([]),
       importes: this.fb.array([]),
       totalimporte: this.fb.control('')
-        
-         
-      
+
+
+
     });
 
-   
-   
+
+
   }
 
-  
+
   agregarFila( valor:any){
     this.print = false;
     this.detalles.push( this.fb.control(''));
     this.importes.push( this.fb.control(''));
- 
+
 
   }
 
   agregaTotal( e:any ){
     this.total = this.total + +e.value;
-    
-      
- 
-   
+
+
+
+
 
   }
 
   cobrar( ){
 
-    
-    
+
+
     this.recibo.idUsuario = this.alumnos.alumno._id;
-    
+
     this.recibo.detalles = this.forma.controls['detalles'].value;
     this.recibo.importes = this.forma.controls['importes'].value;
     this.detalles1 = this.forma.controls['detalles'].value;
     this.importes1 = this.forma.controls['importes'].value;
-   
 
-    
+
+
 
     this.recibo.importes?.forEach( e =>{
       this.total = this.total + e;
     })
-  
+
     this.setTotal();
     this.recibo.total = this.forma.controls['totalimporte'].value;
 
-       
+
     this.recibos.obtieneRecibo$( this.recibo ).subscribe( resp =>{
       if ( resp['errors'] ){
         console.log(resp['errors']);
       }
-        
+
       this.recibo.nroRecibo = resp.recibo.nroRecibo;
       this.movimientoCaja();
       this.caja.nuevoMovimiento$( this.movCaja ).subscribe( (resp) =>{
-        
+
         this.print = true;
     })
-      
-      
-       
+
+
+
     })
 
-     
+
     }
-    
+
     imprimir(){
-      
+
       window.print();
     }
 
     volver(){
-      
+
       this.route.navigate(['/user']);
     }
 
@@ -167,10 +168,10 @@ procesar(){}
      this.movCaja.movimiento = "C";
      this.movCaja.importe = this.recibo.total;
      this.movCaja.detalle = `Recibo ${ this.recibo.nroRecibo }`;
-     
+
 
     }
-   
+
 
 
 }

@@ -1,15 +1,16 @@
-.contenedor {
-    display: flex;
-    flex-direction: column;
-    padding: 2em;
+.contenido {
     background-color: antiquewhite;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+    width: 80vw;
 }
 
 div.error {
     background-color: #ff0800;
     line-height: 1.2;
-    padding: 1em;
     opacity: 0.8;
+    padding: 1em;
 }
 
 .error {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlumnosService } from '../../../services/alumnos.service';
 
 @Component({
   selector: 'app-nuevo-usuario',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NuevoUsuarioComponent implements OnInit {
 
-  constructor() { }
+  constructor(public alumnos:AlumnosService) {
+    if( this.alumnos.alumno !== {} ){
+      this.alumnos.alumno = {};
+    }
+   }
 
   ngOnInit(): void {
+
   }
 
 }
