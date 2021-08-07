@@ -1,7 +1,7 @@
 <app-cabecera></app-cabecera>
 <app-navbar></app-navbar>
 
-<div class="contenido">
+<div *ngIf="valido" class="contenido">
     <form class="d-flex">
         <input class="form-control me-2" type="text" name="search" #buscarDato placeholder="Buscá por Apellido" aria-label="Search" [(ngModel)]="filtrar">
 
@@ -57,3 +57,7 @@
 
     </div>
 </div>
+<div *ngIf="!valido" class="contenido">
+    <div class="alert alert-primary" role="alert">
+        Área de acceso restringido!
+    </div>

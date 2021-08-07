@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators, FormsModule } from '@a
 import { Event, Router } from '@angular/router';
 import { AlumnosService } from 'src/app/services/alumnos.service';
 import { Alumno } from '../../../interfaces/alumno';
+import { AuthService } from '@auth0/auth0-angular';
+import { environment } from '../../../../environments/environment';
 
 
 
@@ -14,19 +16,27 @@ import { Alumno } from '../../../interfaces/alumno';
 export class UsuariosComponent implements OnInit {
   existe:Boolean = false;
   filtrar:string;
+  valido:Boolean = false;
 
 
 
 
 
-  constructor( private fb:FormBuilder, public alumnos:AlumnosService, private route:Router ) {
+  constructor( private fb:FormBuilder, public alumnos:AlumnosService, private route:Router, public auth:AuthService ) {
 
 
 
    }
 
   ngOnInit(): void {
-    this.alumnos.getUsuarios();
+    this.auth.user$.subscribe( (resp) =>{
+      if ( resp['email'] == environment.jana || resp['email'] == environment.gabo ) {
+        this.valido = true;
+        this.alumnos.getUsuarios();
+      }
+     
+    });
+    
 
 
   }

@@ -12,12 +12,12 @@ import { AlumnosService } from '../../../services/alumnos.service';
 export class FormularioUsuarioComponent implements OnInit {
 
   forma = new FormGroup({
-              nombre   : new FormControl('', [Validators.required]),
-              apellido : new FormControl('', [Validators.required]),
-              dni      : new FormControl('', [Validators.required]),
-              edad     : new FormControl('', [Validators.required]),
+              nombre   : new FormControl(''),
+              apellido : new FormControl(''),
+              dni      : new FormControl(''),
+              edad     : new FormControl(''),
               direccion :new FormControl(''),
-              email    : new FormControl('', [Validators.required, Validators.email]),
+              email    : new FormControl(''),
               telefono : new FormControl(''),
               img      : new FormControl('')
 
