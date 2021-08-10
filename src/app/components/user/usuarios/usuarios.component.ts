@@ -30,13 +30,13 @@ export class UsuariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.auth.user$.subscribe( (resp) =>{
-      if ( resp['email'] == environment.jana || resp['email'] == environment.gabo ) {
+      if ( resp['email'] == environment.jana || resp['email'] == environment.gabo || resp['email'] == environment.imca) {
         this.valido = true;
         this.alumnos.getUsuarios();
       }
-     
+
     });
-    
+
 
 
   }
