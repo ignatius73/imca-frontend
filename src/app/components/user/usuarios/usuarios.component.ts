@@ -17,6 +17,8 @@ export class UsuariosComponent implements OnInit {
   existe:Boolean = false;
   filtrar:string;
   valido:Boolean = false;
+  loading:Boolean = false;
+  respuesta:any;
 
 
 
@@ -32,7 +34,12 @@ export class UsuariosComponent implements OnInit {
     this.auth.user$.subscribe( (resp) =>{
       if ( resp['email'] == environment.jana || resp['email'] == environment.gabo || resp['email'] == environment.imca) {
         this.valido = true;
+        this.loading = true;
         this.alumnos.getUsuarios();
+          
+            
+
+       
       }
 
     });

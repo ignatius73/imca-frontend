@@ -12,6 +12,7 @@ nrodni: number = 0;
 usuario: Alumno[] = [];
 alumnos: Alumno[] = [];
 alumno:Alumno = {};
+loading: Boolean = true;
 
   constructor( private http: HttpClient ) { }
 
@@ -44,11 +45,14 @@ alumno:Alumno = {};
 
   getUsuarios():any{
     this.obtieneUsuarios$().subscribe( (resp) =>{
+      this.loading = true;
       if (!resp["alumnos"]) {
+        this.loading = false;
         console.log(resp.message);
        return false;
       }else{
         this.alumnos = resp['alumnos'];
+        this.loading = false;
         return true;
       }
 
