@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Inject, LOCALE_ID } from '@angular/core';
 import { Router } from '@angular/router';
+import { formatDate } from "@angular/common";
 import { Caja } from 'src/app/interfaces/caja';
 import { CajasService } from '../../services/cajas.service';
+import { excelData } from 'src/app/interfaces/excelData';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService } from '@auth0/auth0-angular';
 import { environment } from '../../../environments/environment';
+import { ExceljsService } from 'src/app/services/exceljs.service';
+
 
 
 
@@ -25,9 +29,13 @@ export class CajaComponent implements OnInit {
   valor: boolean = false;
   errores: any = '';
   valido: boolean = false;
+  datosCaja: Caja[];
+  excel: excelData = {};
+  hoy:Date;
 
  
-  constructor( public caja:CajasService, public route:Router, private fb:FormBuilder, public auth:AuthService) { 
+  constructor( public caja:CajasService, public route:Router, private fb:FormBuilder, public auth:AuthService,
+              @Inject(LOCALE_ID) private locale: string, public excelToXls:ExceljsService) { 
    
    
    
@@ -89,5 +97,13 @@ export class CajaComponent implements OnInit {
   }
 }
 
+ bajarxlsx(){
+  
 
+   this.excel.title = "Caja Imca al día " + formatDate(Date.now(),'dd-MM-yyyy', this.locale); 
+   this.excel.headers = ['Fecha', 'Movimiento','Detalle','Importe','Recibo'];
+   this.excel.data = this.caja.caja;
+   console.log(JSON.stringify(this.excel));
+   this.excelToXls.exportExcel(this.excel);
+ }
 }

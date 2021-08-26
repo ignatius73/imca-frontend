@@ -27,11 +27,21 @@
 
         </form>
     </div>
-
-    <div class="saldo1">
-        <h5 *ngIf="caja.saldo > 0" class="positivo">SALDO CAJA: {{caja.saldo}}</h5>
-        <h5 *ngIf="caja.saldo < 0" class="negativo">SALDO CAJA: {{caja.saldo}}</h5>
+    <div class="row">
+        <div class="col-6">
+            <div class="saldo1">
+                <h5 *ngIf="caja.saldo > 0" class="positivo">SALDO CAJA: {{caja.saldo}}</h5>
+                <h5 *ngIf="caja.saldo < 0" class="negativo">SALDO CAJA: {{caja.saldo}}</h5>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="bajarxls">
+                <button class="btn btn-primary" (click)="bajarxlsx()">Bajar Excel</button>
+            </div>
+        </div>
     </div>
+
+
 
 
 
