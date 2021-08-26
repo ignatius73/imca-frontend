@@ -5,6 +5,7 @@ import { AlumnosService } from 'src/app/services/alumnos.service';
 import { Alumno } from '../../../interfaces/alumno';
 import { AuthService } from '@auth0/auth0-angular';
 import { environment } from '../../../../environments/environment';
+import { async } from 'rxjs';
 
 
 
@@ -19,6 +20,7 @@ export class UsuariosComponent implements OnInit {
   valido:Boolean = false;
   loading:Boolean = false;
   respuesta:any;
+  errores:any = '';
 
 
 
@@ -34,7 +36,7 @@ export class UsuariosComponent implements OnInit {
     this.auth.user$.subscribe( (resp) =>{
       if ( resp['email'] == environment.jana || resp['email'] == environment.gabo || resp['email'] == environment.imca) {
         this.valido = true;
-        this.loading = true;
+        //this.loading = true;
         this.alumnos.getUsuarios();
           
             

@@ -8,7 +8,7 @@
 
 div.error {
     background-color: #ff0800;
-    line-height: 1.2;
+    line-height: 1;
     opacity: 0.8;
     padding: 1em;
 }
@@ -17,4 +17,10 @@ div.error {
     color: rgb(253, 253, 253);
     font-style: italic;
     font-weight: bold;
+}
+
+.guardar {
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }

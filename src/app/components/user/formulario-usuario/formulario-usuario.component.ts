@@ -57,7 +57,7 @@ export class FormularioUsuarioComponent implements OnInit {
     this.alumno.img = this.forma.controls['img'].value;
 
     if(this.alumno._id === undefined ){
-      console.log("Es un nuevo Alumno");
+      
     this.alumnos.nuevoUsuario$(this.alumno).subscribe( (resp)=>{
         if ( resp['errors'] ){
           this.errores = resp['errors'];
