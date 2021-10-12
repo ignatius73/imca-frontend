@@ -80,8 +80,7 @@ export class ExceljsService {
 
     ];
     // Adding Data with Conditional Formatting
-   console.log("Voy a imprimir la data antes de bajar el excel")
-   console.log(data)
+   
    data.forEach( (d:Caja, count:Number) => {
      
      worksheet.addRow(d);
