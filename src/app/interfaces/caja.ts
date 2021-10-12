@@ -5,6 +5,8 @@ export interface Caja {
     detalle?: string,
     importe?: number,
     saldo?:number,
-    fecha?: Date
+    fecha?: Date,
+    name?: string,
+    last_name?: string
 
 }

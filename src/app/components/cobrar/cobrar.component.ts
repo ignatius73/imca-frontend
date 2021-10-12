@@ -115,9 +115,9 @@ procesar(){}
 
   cobrar( ){
 
-
-
     this.recibo.idUsuario = this.alumnos.alumno._id;
+    this.recibo.apellidoUsuario = this.alumnos.alumno.apellido;
+    this.recibo.nombreUsuario = this.alumnos.alumno.nombre;
 
     this.recibo.detalles = this.forma.controls['detalles'].value;
     this.recibo.importes = this.forma.controls['importes'].value;
@@ -168,6 +168,8 @@ procesar(){}
      this.movCaja.movimiento = "C";
      this.movCaja.importe = this.recibo.total;
      this.movCaja.detalle = `Recibo ${ this.recibo.nroRecibo }`;
+     this.movCaja.name = this.alumnos.alumno.nombre;
+     this.movCaja.last_name = this.alumnos.alumno.apellido
 
 
     }

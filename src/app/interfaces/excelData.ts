@@ -4,4 +4,5 @@ export interface excelData{
     title?:string,
     headers?: string[],
     data?:Caja[];
+   
 }

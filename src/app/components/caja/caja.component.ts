@@ -98,10 +98,12 @@ export class CajaComponent implements OnInit {
 }
 
  bajarxlsx(){
+
+   console.log(this.caja.caja)
   
 
    this.excel.title = "Caja Imca al día " + formatDate(Date.now(),'dd-MM-yyyy', this.locale); 
-   this.excel.headers = ['Fecha', 'Movimiento','Detalle','Importe','Recibo'];
+   this.excel.headers = ['Fecha', 'Movimiento','Detalle','Importe','Recibo', 'Nombre', 'Apellido'];
    this.excel.data = this.caja.caja;
    console.log(JSON.stringify(this.excel));
    this.excelToXls.exportExcel(this.excel);
