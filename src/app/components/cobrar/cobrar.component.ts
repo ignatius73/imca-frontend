@@ -57,7 +57,7 @@ export class CobrarComponent implements OnInit {
   ngOnInit(): void {
     this.crearFormulario();
     this.fecha = new Date();
-    console.log(this.fecha);
+    
   }
 
 

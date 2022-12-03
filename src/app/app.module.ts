@@ -16,6 +16,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling'
 import { AuthModule } from '@auth0/auth0-angular';
 import { environment } from '../environments/environment';
 
+
   
 
 
@@ -32,6 +33,7 @@ import { environment } from '../environments/environment';
     AppComponent,
     PortadaComponent,
     CobrarComponent
+    
     
     
     

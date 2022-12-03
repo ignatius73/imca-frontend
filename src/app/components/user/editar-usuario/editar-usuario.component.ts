@@ -12,7 +12,7 @@ export class EditarUsuarioComponent implements OnInit {
 
   constructor(public alumnos:AlumnosService, private fb:FormBuilder, private route:Router) {
 
-    console.log(this.alumnos.alumno);
+    
    }
 
   ngOnInit(): void {

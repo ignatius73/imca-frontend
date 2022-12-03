@@ -13,10 +13,19 @@ import { Recibo } from '../interfaces/recibo';
 })
 export class RecibosService {
   recibo: any;
+  id: any;
 
   constructor( private http: HttpClient) { }
 
   obtieneRecibo$( recibo: Recibo):Observable<any>{
    return this.http.post(`${ environment.apiUrl}/api/nuevoRecibo`, recibo);
   }
+
+  obtieneListado$( id:any):Observable<any>{
+    const idUsuario =  {
+      idUsuario:id
+    }
+    return this.http.post(`${ environment.apiUrl}/api/ListMovCajaAlumno`, idUsuario);
+  }
+
 }

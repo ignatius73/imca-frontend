@@ -17,7 +17,7 @@
         <img src='../../../../assets/loading.gif'>
     </div>
 
-    <div *ngIf="this.alumnos.loading==false">
+    <div class="tabla" *ngIf="this.alumnos.loading==false">
         <div *ngIf="alumnos.alumnos.length > 0">
             <table class="table table-striped">
                 <thead>
@@ -32,6 +32,7 @@
                         <th scope="col">TELÉFONO</th>
                         <th scope="col">COBRAR</th>
                         <th scope="col">EDITAR</th>
+                        <th scope="col">LISTAR PAGOS</th>
 
                     </tr>
                 </thead>
@@ -48,6 +49,9 @@
                         <td><a href="javascript: void(0);" (click)="cobrar( a._id )"><i class="fas fa-cash-register"></i></a></td>
                         <td>
                             <a href='javascript: void(0);' (click)="editar(a._id)"><i class="fas fa-edit"></i></a>
+                        </td>
+                        <td>
+                            <a href='javascript: void(0);' (click)="listar(a._id)"><i class="fas fa-list"></i></a>
                         </td>
 
                     </tr>

@@ -7,12 +7,14 @@ import { EditarUsuarioComponent } from './components/user/editar-usuario/editar-
 import { CobrarComponent } from './components/cobrar/cobrar.component';
 import { CajaComponent } from './components/caja/caja.component';
 import { AuthGuard } from '@auth0/auth0-angular';
+import { ListaUserComponent } from './components/user/lista-user/lista-user.component';
 
 const routes: Routes = [
   { path: 'home', component : PortadaComponent },
   { path: 'user', component : UsuariosComponent},
   { path: 'user/editarUsuario', component : EditarUsuarioComponent },
   { path: 'user/nuevoUsuario', component : NuevoUsuarioComponent },
+  { path: 'user/listarUsuario', component : ListaUserComponent },
   { path: 'cobrar', component : CobrarComponent },
   { path: 'caja', component : CajaComponent },
   { path: '**', pathMatch: 'full', redirectTo: 'home'}

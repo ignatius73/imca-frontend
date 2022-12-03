@@ -43,11 +43,11 @@ export class CajaComponent implements OnInit {
 
   ngOnInit(): void {
     this.auth.user$.subscribe( (resp) =>{
-      if ( resp['email'] == environment.jana || resp['email'] == environment.gabo) {
+     // if ( resp['email'] == environment.jana || resp['email'] == environment.gabo) {
         this.valido = true;
         this.crearFormulario();
         this.caja.getMovimientos();
-      }
+    //  }
      
     });
     

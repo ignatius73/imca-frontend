@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, FormsModule } from '@angular/forms';
-import { Event, Router } from '@angular/router';
+import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AlumnosService } from 'src/app/services/alumnos.service';
-import { Alumno } from '../../../interfaces/alumno';
+
 import { AuthService } from '@auth0/auth0-angular';
-import { environment } from '../../../../environments/environment';
-import { async } from 'rxjs';
+
+import { RecibosService } from 'src/app/services/recibos.service';
 
 
 
@@ -26,7 +26,11 @@ export class UsuariosComponent implements OnInit {
 
 
 
-  constructor( private fb:FormBuilder, public alumnos:AlumnosService, private route:Router, public auth:AuthService ) {
+  constructor( private fb:FormBuilder, 
+               public alumnos:AlumnosService, 
+               private route:Router, 
+               public auth:AuthService,
+               public recibos:RecibosService ) {
 
 
 
@@ -34,16 +38,9 @@ export class UsuariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.auth.user$.subscribe( (resp) =>{
-      if ( resp['email'] == environment.jana || resp['email'] == environment.gabo || resp['email'] == environment.imca) {
         this.valido = true;
-        //this.loading = true;
         this.alumnos.getUsuarios();
-          
-            
-
-       
-      }
-
+    
     });
 
 
@@ -56,14 +53,7 @@ export class UsuariosComponent implements OnInit {
 
   cobrar( id:any ){
   this.buscaAlumno(id);
-  /*  this.alumnos.alumnos.forEach((element) => {
-      if( element._id == id){
-
-        this.alumnos.alumno = element;
-      };
-    });*/
-
-    this.route.navigate(['/cobrar']);
+  this.route.navigate(['/cobrar']);
 
 
   }
@@ -71,7 +61,7 @@ export class UsuariosComponent implements OnInit {
   editar(id:any){
     this.buscaAlumno(id);
     this.route.navigate(['/user/editarUsuario'])
-    //console.log(id);
+  
   }
 
   buscaAlumno(id:any){
@@ -81,6 +71,12 @@ export class UsuariosComponent implements OnInit {
         this.alumnos.alumno = element;
       };
     });
+  }
+
+  listar(idUsuario:any){
+    this.buscaAlumno(idUsuario);
+    this.route.navigate(['/user/listarUsuario'])
+     
   }
 
 

@@ -10,6 +10,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { CabeceraComponent } from '../cabecera/cabecera.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
+import { ListaUserComponent } from './lista-user/lista-user.component';
 
 
 
@@ -17,7 +18,7 @@ import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
-  declarations: [ NuevoUsuarioComponent, UsuariosComponent, EditarUsuarioComponent, FormularioUsuarioComponent ],
+  declarations: [ NuevoUsuarioComponent, UsuariosComponent, EditarUsuarioComponent, FormularioUsuarioComponent, ListaUserComponent ],
   imports: [
     CommonModule,
     FormsModule,

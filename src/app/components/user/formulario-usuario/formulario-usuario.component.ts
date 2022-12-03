@@ -34,7 +34,7 @@ export class FormularioUsuarioComponent implements OnInit {
 
 
   constructor(public alumnos:AlumnosService, private route:Router) {
-    console.log(this.alumnos.alumno);
+    
     this.alumno = this.alumnos.alumno;
   }
 
@@ -61,7 +61,7 @@ export class FormularioUsuarioComponent implements OnInit {
     this.alumnos.nuevoUsuario$(this.alumno).subscribe( (resp)=>{
         if ( resp['errors'] ){
           this.errores = resp['errors'];
-          console.log(this.errores);
+          
 
 
 
@@ -76,7 +76,7 @@ export class FormularioUsuarioComponent implements OnInit {
     this.alumnos.editaUsuario$(this.alumno).subscribe( ( resp) =>{
       if ( resp['errors'] ){
         this.errores = resp['errors'];
-        console.log(this.errores);
+        
 
 
 

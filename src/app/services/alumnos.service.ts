@@ -21,7 +21,6 @@ loading: Boolean = true;
     this.nrodni = dni;
     this.consultaUsuario$().subscribe( (resp) =>{
      if (!resp["user"]) {
-       console.log(resp.message);
       return false;
      }else{
        this.usuario = resp['user'];
@@ -48,7 +47,7 @@ loading: Boolean = true;
       this.loading = true;
       if (!resp["alumnos"]) {
         this.loading = false;
-        console.log(resp.message);
+       
        return false;
       }else{
         this.alumnos = resp['alumnos'];

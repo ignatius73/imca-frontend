@@ -1,0 +1,44 @@
+<app-cabecera></app-cabecera>
+<app-navbar></app-navbar>
+<div *ngIf="this.loading==true" class="loading">
+    <img src='../../../../assets/loading.gif'>
+</div>
+<div class="contenido">
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">RECIBO NRO.</th>
+                <th scope="col">NOMBRE</th>
+                <th scope="col">APELLIDO</th>
+                <th scope="col">DETALLES</th>
+                <th scope="col">IMPORTES</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let a of recibosUser.recibos">
+
+                <td>{{ a.nroRecibo }}</td>
+                <td>{{ a.nombreUsuario }}</td>
+                <td>{{ a.apellidoUsuario }}</td>
+                <td>
+                    <tr *ngFor="let r of a.detalles">
+                        <td>{{ r }}</td>
+
+                    </tr>
+                </td>
+                <td>
+                    <tr *ngFor="let r of a.importes">
+                        <td>{{ r }}</td>
+
+                    </tr>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <div class="footable">
+        <a routerLink="/user"><i class="fas fa-arrow-circle-left center iconBack"></i></a>
+    </div>
+
+</div>
