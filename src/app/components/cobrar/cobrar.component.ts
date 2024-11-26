@@ -123,6 +123,7 @@ procesar(){}
     this.recibo.importes = this.forma.controls['importes'].value;
     this.detalles1 = this.forma.controls['detalles'].value;
     this.importes1 = this.forma.controls['importes'].value;
+    
 
 
 
@@ -139,7 +140,7 @@ procesar(){}
       if ( resp['errors'] ){
         console.log(resp['errors']);
       }
-
+      console.log(resp);
       this.recibo.nroRecibo = resp.recibo.nroRecibo;
       this.movimientoCaja();
       this.caja.nuevoMovimiento$( this.movCaja ).subscribe( (resp) =>{

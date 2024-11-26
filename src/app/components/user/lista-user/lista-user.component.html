@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th scope="col">RECIBO NRO.</th>
+                <th scope="col">FECHA RECIBO</th>
                 <th scope="col">NOMBRE</th>
                 <th scope="col">APELLIDO</th>
                 <th scope="col">DETALLES</th>
@@ -19,6 +20,7 @@
             <tr *ngFor="let a of recibosUser.recibos">
 
                 <td>{{ a.nroRecibo }}</td>
+                <td>{{ a.fechaRecibo | date: "dd/MM/yyyy" }}</td>
                 <td>{{ a.nombreUsuario }}</td>
                 <td>{{ a.apellidoUsuario }}</td>
                 <td>
