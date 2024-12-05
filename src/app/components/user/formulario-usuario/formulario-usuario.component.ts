@@ -24,6 +24,7 @@ export class FormularioUsuarioComponent implements OnInit {
   });
 
    alumno: Alumno = {};
+   alumnoActual: Alumno = {};
    imgPreview: string | ArrayBuffer = '';
    @Output()
    propagar= new EventEmitter<FormGroup>();
@@ -34,7 +35,7 @@ export class FormularioUsuarioComponent implements OnInit {
 
 
   constructor(public alumnos:AlumnosService, private route:Router) {
-    
+    this.alumnoActual = this.alumnos.alumno;
     this.alumno = this.alumnos.alumno;
   }
 
@@ -73,7 +74,7 @@ export class FormularioUsuarioComponent implements OnInit {
     });
   }else{
     //this.alumnos.nuevoUsuario$(this.alumno).subscribe( (resp)=>{
-    this.alumnos.editaUsuario$(this.alumno).subscribe( ( resp) =>{
+    this.alumnos.editaUsuario$(this.alumno, this.alumnoActual).subscribe( ( resp) =>{
       if ( resp['errors'] ){
         this.errores = resp['errors'];
         

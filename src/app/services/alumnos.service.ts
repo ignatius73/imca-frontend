@@ -66,8 +66,8 @@ nuevoUsuario$( alumno: Alumno):Observable<any>{
   return this.http.post(`${environment.apiUrl}/api/nuevoAlumno`, alumno);
 }
 
-editaUsuario$ ( alumno: Alumno ):Observable<any>{
-  return this.http.post(`${environment.apiUrl}/api/editaAlumno`, alumno);
+editaUsuario$ ( alumno: Alumno, alumnoActual: Alumno ):Observable<any>{
+  return this.http.put(`${environment.apiUrl}/api/editaAlumno`, {"alumno":alumno, "alumnoActual":alumnoActual});
 }
 
 }
