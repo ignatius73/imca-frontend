@@ -171,6 +171,7 @@ procesar(){}
      this.movCaja.detalle = `Recibo ${ this.recibo.nroRecibo }`;
      this.movCaja.name = this.alumnos.alumno.nombre;
      this.movCaja.last_name = this.alumnos.alumno.apellido
+     this.movCaja.fecha = this.fecha;
 
 
     }

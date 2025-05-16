@@ -74,6 +74,7 @@ export class CajaComponent implements OnInit {
     }else{
       this.movcaja.movimiento = "D";
     }
+    this.movcaja.fecha = new Date();
     this.movcaja.importe = parseFloat( this.forma.controls['importe'].value);
     this.caja.nuevoMovimiento$( this.movcaja ).subscribe( (resp) =>{
       console.log(resp);
