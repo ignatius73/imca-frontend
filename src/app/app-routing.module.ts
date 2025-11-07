@@ -19,7 +19,13 @@ const routes: Routes = [
   { path: 'user/nuevoUsuario', component : NuevoUsuarioComponent, canActivate: [AuthGuard] },
   { path: 'user/listarUsuario', component : ListaUserComponent, canActivate: [AuthGuard] },
   { path: 'cobrar', component : CobrarComponent, canActivate: [AuthGuard] },
-  { path: 'caja', component : CajaComponent, canActivate: [AuthGuard] },
+  // La ruta /caja requiere autenticación Y el rol "Admin"
+  {
+    path: 'caja',
+    component : CajaComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['Admin'] }
+  },
   { path: '**', pathMatch: 'full', redirectTo: 'home'}
 ];
 
