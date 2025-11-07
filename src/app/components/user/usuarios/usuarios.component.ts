@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlumnosService } from 'src/app/services/alumnos.service';
 import { RecibosService } from 'src/app/services/recibos.service';
@@ -23,7 +23,7 @@ export class UsuariosComponent implements OnInit {
 
 
 
-  constructor( private fb:FormBuilder,
+  constructor( private fb:UntypedFormBuilder,
                public alumnos:AlumnosService,
                private route:Router,
                public recibos:RecibosService ) {

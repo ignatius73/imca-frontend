@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlumnosService } from 'src/app/services/alumnos.service';
 
@@ -10,7 +10,7 @@ import { AlumnosService } from 'src/app/services/alumnos.service';
 })
 export class EditarUsuarioComponent implements OnInit {
 
-  constructor(public alumnos:AlumnosService, private fb:FormBuilder, private route:Router) {
+  constructor(public alumnos:AlumnosService, private fb:UntypedFormBuilder, private route:Router) {
 
     
    }

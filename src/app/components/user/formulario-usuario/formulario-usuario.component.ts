@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Alumno } from 'src/app/interfaces/alumno';
 import { AlumnosService } from '../../../services/alumnos.service';
@@ -11,15 +11,15 @@ import { AlumnosService } from '../../../services/alumnos.service';
 })
 export class FormularioUsuarioComponent implements OnInit {
 
-  forma = new FormGroup({
-              nombre   : new FormControl(''),
-              apellido : new FormControl(''),
-              dni      : new FormControl(''),
-              edad     : new FormControl(''),
-              direccion :new FormControl(''),
-              email    : new FormControl(''),
-              telefono : new FormControl(''),
-              img      : new FormControl('')
+  forma = new UntypedFormGroup({
+              nombre   : new UntypedFormControl(''),
+              apellido : new UntypedFormControl(''),
+              dni      : new UntypedFormControl(''),
+              edad     : new UntypedFormControl(''),
+              direccion :new UntypedFormControl(''),
+              email    : new UntypedFormControl(''),
+              telefono : new UntypedFormControl(''),
+              img      : new UntypedFormControl('')
 
   });
 
@@ -27,7 +27,7 @@ export class FormularioUsuarioComponent implements OnInit {
    alumnoActual: Alumno = {};
    imgPreview: string | ArrayBuffer = '';
    @Output()
-   propagar= new EventEmitter<FormGroup>();
+   propagar= new EventEmitter<UntypedFormGroup>();
    errores:any = '';
 
 

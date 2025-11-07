@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormBuilder, FormArray, FormsModule } from '@angular/forms';
+import { FormControl, UntypedFormGroup, Validators, UntypedFormBuilder, UntypedFormArray, FormsModule } from '@angular/forms';
 import { Remito } from 'src/app/interfaces/remito';
 import { AlumnosService } from '../../services/alumnos.service';
 import  printJS  from 'print-js';
@@ -27,7 +27,7 @@ import { Caja } from '../../interfaces/caja';
 
 })
 export class CobrarComponent implements OnInit {
-  forma: FormGroup;
+  forma: UntypedFormGroup;
   detalles1: string[];
   importes1: number[];
   recibo: Recibo = {};
@@ -46,7 +46,7 @@ export class CobrarComponent implements OnInit {
 
 
 
-  constructor( public alumnos:AlumnosService, private fb:FormBuilder, public recibos:RecibosService, private route:Router, private caja:CajasService ) {
+  constructor( public alumnos:AlumnosService, private fb:UntypedFormBuilder, public recibos:RecibosService, private route:Router, private caja:CajasService ) {
       if ( this.alumnos.alumno._id == undefined ){
         this.route.navigate(['/user']);
 
@@ -65,11 +65,11 @@ procesar(){}
   //getters
 
   get detalles() {
-    return this.forma.get('detalles') as FormArray;
+    return this.forma.get('detalles') as UntypedFormArray;
 
   }
   get importes() {
-    return this.forma.get('importes') as FormArray;
+    return this.forma.get('importes') as UntypedFormArray;
 
   }
 

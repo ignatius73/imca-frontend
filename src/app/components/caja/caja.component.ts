@@ -4,7 +4,7 @@ import { formatDate } from "@angular/common";
 import { Caja } from 'src/app/interfaces/caja';
 import { CajasService } from '../../services/cajas.service';
 import { excelData } from 'src/app/interfaces/excelData';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators, FormControl } from '@angular/forms';
 import { environment } from '../../../environments/environment';
 import { ExceljsService } from 'src/app/services/exceljs.service';
 
@@ -23,7 +23,7 @@ import { ExceljsService } from 'src/app/services/exceljs.service';
   styleUrls: ['./caja.component.css']
 })
 export class CajaComponent implements OnInit {
-  forma: FormGroup;
+  forma: UntypedFormGroup;
   movcaja: Caja = {};
   valor: boolean = false;
   errores: any = '';
@@ -33,7 +33,7 @@ export class CajaComponent implements OnInit {
   hoy:Date;
 
  
-  constructor( public caja:CajasService, public route:Router, private fb:FormBuilder,
+  constructor( public caja:CajasService, public route:Router, private fb:UntypedFormBuilder,
               @Inject(LOCALE_ID) private locale: string, public excelToXls:ExceljsService) {
 
 

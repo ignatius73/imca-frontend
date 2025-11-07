@@ -9,9 +9,8 @@ import { AlumnosService } from '../../../services/alumnos.service';
 export class NuevoUsuarioComponent implements OnInit {
 
   constructor(public alumnos:AlumnosService) {
-    if( this.alumnos.alumno !== {} ){
-      this.alumnos.alumno = {};
-    }
+    // Reset alumno when creating a new user
+    this.alumnos.alumno = {};
    }
 
   ngOnInit(): void {
