@@ -65,6 +65,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   logout(): void {
     console.log('Cerrando sesión...');
+    // Limpiar tokens del storage antes de hacer logout
+    sessionStorage.removeItem('kc_token');
+    sessionStorage.removeItem('kc_refreshToken');
+    sessionStorage.removeItem('kc_idToken');
+    sessionStorage.removeItem('redirectUrl');
+    console.log('💾 Tokens eliminados del storage');
     this.keycloakService.logout(this.baseUrl);
   }
 

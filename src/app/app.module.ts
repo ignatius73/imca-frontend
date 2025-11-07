@@ -73,7 +73,12 @@ function initializeKeycloak(keycloak: KeycloakService) {
         // Especificar redirect URI explícito
         redirectUri: window.location.origin + '/',
         // Agregar logging para debug
-        enableLogging: true
+        enableLogging: true,
+        // IMPORTANTE: Habilitar persistencia de token en sessionStorage
+        // Esto permite que el token sobreviva recargas de página dentro de la misma sesión
+        // Opciones: 'localStorage' (persiste entre pestañas/sesiones) o 'sessionStorage' (solo en la pestaña actual)
+        token: sessionStorage.getItem('kc_token') || undefined,
+        refreshToken: sessionStorage.getItem('kc_refreshToken') || undefined
       },
       enableBearerInterceptor: true,
       bearerPrefix: 'Bearer',
@@ -101,6 +106,39 @@ function initializeKeycloak(keycloak: KeycloakService) {
         console.log('👤 Usuario:', kc.tokenParsed?.preferred_username || kc.tokenParsed?.email);
         console.log('🎫 Token completo (primeros 100 chars):', kc.token?.substring(0, 100));
         console.log('🔍 Token parseado:', kc.tokenParsed);
+
+        // 💾 GUARDAR TOKENS EN SESSIONSTORAGE para persistencia
+        if (kc.token) {
+          sessionStorage.setItem('kc_token', kc.token);
+          console.log('💾 Token guardado en sessionStorage');
+        }
+        if (kc.refreshToken) {
+          sessionStorage.setItem('kc_refreshToken', kc.refreshToken);
+          console.log('💾 Refresh token guardado en sessionStorage');
+        }
+        if (kc.idToken) {
+          sessionStorage.setItem('kc_idToken', kc.idToken);
+          console.log('💾 ID token guardado en sessionStorage');
+        }
+
+        // Configurar listener para actualizar tokens cuando se refresquen
+        kc.onTokenExpired = () => {
+          console.log('⏰ Token expirado, refrescando...');
+          kc.updateToken(30).then((refreshed) => {
+            if (refreshed) {
+              console.log('✅ Token refrescado exitosamente');
+              if (kc.token) sessionStorage.setItem('kc_token', kc.token);
+              if (kc.refreshToken) sessionStorage.setItem('kc_refreshToken', kc.refreshToken);
+            } else {
+              console.log('ℹ️ Token aún válido');
+            }
+          }).catch(() => {
+            console.error('❌ Falló el refresh del token');
+            sessionStorage.removeItem('kc_token');
+            sessionStorage.removeItem('kc_refreshToken');
+            sessionStorage.removeItem('kc_idToken');
+          });
+        };
       } else {
         console.log('⚠️ No autenticado después de init');
         console.log('🔍 Verificando estado de Keycloak...');
