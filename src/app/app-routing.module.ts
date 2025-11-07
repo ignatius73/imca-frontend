@@ -8,6 +8,7 @@ import { CobrarComponent } from './components/cobrar/cobrar.component';
 import { CajaComponent } from './components/caja/caja.component';
 import { AuthGuard } from './guards/auth.guard';
 import { ListaUserComponent } from './components/user/lista-user/lista-user.component';
+import { ROLES } from './config/roles.config';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -19,12 +20,12 @@ const routes: Routes = [
   { path: 'user/nuevoUsuario', component : NuevoUsuarioComponent, canActivate: [AuthGuard] },
   { path: 'user/listarUsuario', component : ListaUserComponent, canActivate: [AuthGuard] },
   { path: 'cobrar', component : CobrarComponent, canActivate: [AuthGuard] },
-  // La ruta /caja requiere autenticación Y el rol "Admin"
+  // La ruta /caja requiere autenticación Y el rol definido en ROLES.ADMIN
   {
     path: 'caja',
     component : CajaComponent,
     canActivate: [AuthGuard],
-    data: { roles: ['Admin'] }
+    data: { roles: [ROLES.ADMIN] }
   },
   { path: '**', pathMatch: 'full', redirectTo: 'home'}
 ];

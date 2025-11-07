@@ -58,9 +58,13 @@ export class AuthGuard  {
 
               console.log('🎭 Roles del usuario:', allRoles);
 
+              // Normalizar roles a minúsculas para comparación case-insensitive
+              const normalizedUserRoles = allRoles.map(role => role.toLowerCase());
+              const normalizedRequiredRoles = requiredRoles.map(role => role.toLowerCase());
+
               // Verificar si el usuario tiene al menos uno de los roles requeridos
-              const hasRequiredRole = requiredRoles.some(role =>
-                allRoles.includes(role)
+              const hasRequiredRole = normalizedRequiredRoles.some(role =>
+                normalizedUserRoles.includes(role)
               );
 
               if (!hasRequiredRole) {
