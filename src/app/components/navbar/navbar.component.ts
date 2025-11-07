@@ -33,7 +33,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.authSubscription = this.oidcSecurityService.isAuthenticated$.subscribe(
       ({ isAuthenticated }) => {
         this.isLoggedIn = isAuthenticated;
-        console.log('Navbar - Estado login:', this.isLoggedIn);
         this.cdr.detectChanges();
       }
     );
@@ -56,20 +55,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   login(): void {
-    console.log('Iniciando login desde navbar...');
     this.oidcSecurityService.authorize();
   }
 
   logout(): void {
-    console.log('Cerrando sesión...');
     // Limpiar la URL guardada
     sessionStorage.removeItem('redirectUrl');
-    console.log('💾 Storage limpiado');
 
     // Hacer logout con redirección al origen
-    this.oidcSecurityService.logoff().subscribe(result => {
-      console.log('✅ Logout completado');
-    });
+    this.oidcSecurityService.logoff().subscribe();
   }
 
 }

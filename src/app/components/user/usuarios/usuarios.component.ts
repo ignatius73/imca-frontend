@@ -32,7 +32,6 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     // Suscribirse al estado de autenticación
     this.authSubscription = this.oidcSecurityService.isAuthenticated$.subscribe(
       ({ isAuthenticated }) => {
-        console.log('UsuariosComponent - Estado de autenticación:', isAuthenticated);
         this.valido = isAuthenticated;
 
         // Solo cargar usuarios si está autenticado

@@ -9,6 +9,17 @@ export const ROLES = {
 } as const;
 
 /**
+ * Configuración de Keycloak
+ */
+export const KEYCLOAK_CONFIG = {
+  /**
+   * Nombre del cliente en Keycloak donde se almacenan los roles
+   * Los roles vienen en: resource_access[CLIENT_ID].roles
+   */
+  CLIENT_ID: 'imca-app'
+};
+
+/**
  * Mapeo de roles a permisos/descripciones (opcional)
  */
 export const ROLE_DESCRIPTIONS = {
