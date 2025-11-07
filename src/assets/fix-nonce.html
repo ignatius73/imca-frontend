@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Limpieza de Sesión Keycloak</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #d32f2f;
+        }
+        button {
+            background: #1976d2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #1565c0;
+        }
+        .success {
+            color: #2e7d32;
+            margin-top: 20px;
+            padding: 10px;
+            background: #e8f5e9;
+            border-radius: 4px;
+        }
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Fix: Invalid Nonce Error</h1>
+
+        <div class="info">
+            <strong>¿Cuándo usar esto?</strong><br>
+            Usa este script cuando veas el error:<br>
+            <code>[KEYCLOAK] Invalid nonce, clearing token</code>
+        </div>
+
+        <p>Este script limpiará toda la sesión de Keycloak almacenada en tu navegador.</p>
+
+        <button onclick="cleanAll()">🗑️ Limpiar Todo</button>
+        <button onclick="goHome()">🏠 Ir a Home</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function cleanAll() {
+            try {
+                // Limpiar localStorage
+                const keysToRemove = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key && (key.includes('kc') || key.includes('keycloak'))) {
+                        keysToRemove.push(key);
+                    }
+                }
+                keysToRemove.forEach(key => localStorage.removeItem(key));
+
+                // Limpiar sessionStorage
+                sessionStorage.clear();
+
+                // Limpiar todas las cookies
+                document.cookie.split(";").forEach(function(c) {
+                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+                });
+
+                document.getElementById('result').innerHTML =
+                    '<div class="success">✅ Sesión limpiada correctamente<br>' +
+                    'Ahora puedes <a href="/">volver a la aplicación</a> e intentar nuevamente.</div>';
+            } catch (error) {
+                document.getElementById('result').innerHTML =
+                    '<div style="color: red">❌ Error al limpiar: ' + error.message + '</div>';
+            }
+        }
+
+        function goHome() {
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>

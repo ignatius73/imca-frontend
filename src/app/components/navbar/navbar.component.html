@@ -22,19 +22,14 @@
         </ul>
 
     </div>
-    <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
-
-        <button class="btn btn-primary boton" (click)="auth.logout({ returnTo: baseUrl }
-        )">
+    <ng-container *ngIf="isLoggedIn; else loggedOut">
+        <button class="btn btn-primary boton" (click)="logout()">
         Salir
       </button>
     </ng-container>
 
     <ng-template #loggedOut>
-        <button class="btn btn-primary boton" (click)="auth.loginWithRedirect({
-            appState: { target: route.url}
-          })">Ingresar</button>
-
+        <button class="btn btn-primary boton" (click)="login()">Ingresar</button>
     </ng-template>
 
 </nav>

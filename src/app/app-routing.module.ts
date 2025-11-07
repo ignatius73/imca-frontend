@@ -6,22 +6,26 @@ import { UsuariosComponent } from './components/user/usuarios/usuarios.component
 import { EditarUsuarioComponent } from './components/user/editar-usuario/editar-usuario.component';
 import { CobrarComponent } from './components/cobrar/cobrar.component';
 import { CajaComponent } from './components/caja/caja.component';
-import { AuthGuard } from '@auth0/auth0-angular';
+import { AuthGuard } from './guards/auth.guard';
 import { ListaUserComponent } from './components/user/lista-user/lista-user.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component : PortadaComponent },
-  { path: 'user', component : UsuariosComponent},
-  { path: 'user/editarUsuario', component : EditarUsuarioComponent },
-  { path: 'user/nuevoUsuario', component : NuevoUsuarioComponent },
-  { path: 'user/listarUsuario', component : ListaUserComponent },
-  { path: 'cobrar', component : CobrarComponent },
-  { path: 'caja', component : CajaComponent },
+  { path: 'user', component : UsuariosComponent, canActivate: [AuthGuard] },
+  { path: 'user/editarUsuario', component : EditarUsuarioComponent, canActivate: [AuthGuard] },
+  { path: 'user/nuevoUsuario', component : NuevoUsuarioComponent, canActivate: [AuthGuard] },
+  { path: 'user/listarUsuario', component : ListaUserComponent, canActivate: [AuthGuard] },
+  { path: 'cobrar', component : CobrarComponent, canActivate: [AuthGuard] },
+  { path: 'caja', component : CajaComponent, canActivate: [AuthGuard] },
   { path: '**', pathMatch: 'full', redirectTo: 'home'}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    useHash: false,
+    enableTracing: false
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '@auth0/auth0-angular';
-import { async } from 'rxjs';
 
 @Component({
   selector: 'app-portada',
@@ -10,7 +8,7 @@ import { async } from 'rxjs';
 })
 export class PortadaComponent implements OnInit {
 
-  constructor( public router:Router, public auth: AuthService) { }
+  constructor( public router:Router) { }
 
   ngOnInit(): void {
   }

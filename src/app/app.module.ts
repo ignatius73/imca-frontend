@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -13,8 +14,172 @@ import { CobrarComponent } from './components/cobrar/cobrar.component';
 import { CajaModule } from './components/caja/caja.module';
 import { SharedModule } from './shared/shared.module';
 import { ScrollingModule } from '@angular/cdk/scrolling'
-import { AuthModule } from '@auth0/auth0-angular';
+import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { environment } from '../environments/environment';
+
+function initializeKeycloak(keycloak: KeycloakService) {
+  return () => {
+    console.log('🔄 Inicializando Keycloak...');
+    console.log('📍 URL actual:', window.location.href);
+    console.log('📍 Hash:', window.location.hash);
+    console.log('📍 Search:', window.location.search);
+
+    // Detectar si estamos regresando de una autenticación (hay parámetros en la URL)
+    // Los parámetros pueden estar en query string (?) o en hash (#)
+    let urlParams: URLSearchParams;
+    let hasAuthParams = false;
+
+    // Primero intentar en el query string
+    urlParams = new URLSearchParams(window.location.search);
+    hasAuthParams = urlParams.has('code') || urlParams.has('state') ||
+                    urlParams.has('session_state') || urlParams.has('iss');
+
+    // Si no están en query, buscar en el hash
+    if (!hasAuthParams && window.location.hash) {
+      // Remover el # inicial del hash
+      const hashParams = window.location.hash.substring(1);
+      urlParams = new URLSearchParams(hashParams);
+      hasAuthParams = urlParams.has('code') || urlParams.has('state') ||
+                      urlParams.has('session_state') || urlParams.has('iss');
+      console.log('🔍 Parámetros encontrados en hash');
+    }
+
+    if (hasAuthParams) {
+      console.log('🔄 Detectado callback de autenticación, procesando...');
+      console.log('📋 Parámetros de URL:', {
+        code: urlParams.get('code')?.substring(0, 20) + '...',
+        state: urlParams.get('state'),
+        session_state: urlParams.get('session_state'),
+        iss: urlParams.get('iss')
+      });
+      // 🔴 BREAKPOINT: Aquí retorna de Keycloak con el código
+      debugger;
+    }
+
+    const initPromise = keycloak.init({
+      config: {
+        url: environment.keycloak.url,
+        realm: environment.keycloak.realm,
+        clientId: environment.keycloak.clientId
+      },
+      initOptions: {
+        onLoad: 'check-sso',
+        checkLoginIframe: false,
+        pkceMethod: 'S256',
+        flow: 'standard',
+        // Usar query mode para evitar conflicto con hash routing
+        responseMode: 'query',
+        // Especificar redirect URI explícito
+        redirectUri: window.location.origin + '/',
+        // Agregar logging para debug
+        enableLogging: true
+      },
+      shouldAddToken: (request) => {
+        const { url } = request;
+        return url.startsWith(environment.apiUrl);
+      }
+    });
+
+    console.log('🔄 Init promise creada:', initPromise);
+
+    return initPromise.then((authenticated) => {
+      console.log('✅ Keycloak inicializado');
+      console.log('🔐 Authenticated:', authenticated);
+
+      // 🔴 BREAKPOINT: Aquí se procesa la respuesta de Keycloak
+      debugger;
+
+      if (authenticated) {
+        const kc = keycloak.getKeycloakInstance();
+        console.log('✅ Usuario autenticado exitosamente!');
+        console.log('📝 Token obtenido:', kc.token ? 'Sí (' + kc.token.substring(0, 30) + '...)' : 'No');
+        console.log('⏰ Token expira en:', kc.tokenParsed?.exp);
+        console.log('👤 Usuario:', kc.tokenParsed?.preferred_username || kc.tokenParsed?.email);
+        console.log('🎫 Token completo (primeros 100 chars):', kc.token?.substring(0, 100));
+        console.log('🔍 Token parseado:', kc.tokenParsed);
+      } else {
+        console.log('⚠️ No autenticado después de init');
+        console.log('🔍 Verificando estado de Keycloak...');
+        const kc = keycloak.getKeycloakInstance();
+        console.log('KC Instance:', {
+          authenticated: kc.authenticated,
+          token: kc.token ? 'existe' : 'null',
+          refreshToken: kc.refreshToken ? 'existe' : 'null'
+        });
+      }
+
+      // Manejar redirección después del login exitoso
+      if (hasAuthParams && authenticated) {
+        console.log('🧹 Limpiando parámetros de URL y redirigiendo...');
+
+        // Obtener la URL a la que queremos redirigir
+        const redirectUrl = sessionStorage.getItem('redirectUrl') || '/home';
+        console.log('📍 URL de redirección:', redirectUrl);
+
+        // Limpiar parámetros y redirigir
+        setTimeout(() => {
+          sessionStorage.removeItem('redirectUrl');
+          // Navegar a la URL destino
+          window.location.href = redirectUrl;
+        }, 100);
+      } else if (hasAuthParams && !authenticated) {
+        console.warn('⚠️ Había parámetros de auth pero NO se autenticó!');
+        debugger;
+      }
+
+      return Promise.resolve(authenticated);
+    }).catch((error) => {
+      console.error('❌ Error al inicializar Keycloak:', error);
+      console.error('📋 Tipo de error:', typeof error);
+      console.error('📋 Error completo:', error);
+      console.error('📋 Error stringified:', JSON.stringify(error, null, 2));
+      console.error('📋 Error stack:', error?.stack);
+      console.error('📋 Error message:', error?.message);
+      console.error('📋 Error name:', error?.name);
+
+      // Intentar obtener más detalles del error
+      if (error) {
+        console.error('📋 Keys del error:', Object.keys(error));
+        console.error('📋 Error toString:', error.toString());
+      }
+
+      // Verificar el estado de Keycloak
+      try {
+        const kc = keycloak.getKeycloakInstance();
+        console.error('🔍 Estado de KC después del error:', {
+          authenticated: kc?.authenticated,
+          token: kc?.token ? 'existe' : 'null',
+          error: kc
+        });
+      } catch (e) {
+        console.error('No se pudo obtener instancia de KC:', e);
+      }
+
+      // 🔴 BREAKPOINT: Error durante la inicialización
+      debugger;
+
+      // Si hay error de nonce, limpiar todo y recargar
+      if (error && error.toString().includes('nonce')) {
+        console.log('🗑️ Error de nonce detectado, limpiando storage...');
+        try {
+          sessionStorage.clear();
+          localStorage.clear();
+          // Limpiar URL de parámetros y recargar
+          if (window.history && hasAuthParams) {
+            window.history.replaceState({}, document.title, '/');
+            // Recargar la página después de limpiar
+            window.location.href = '/';
+          }
+        } catch (e) {
+          console.log('No se pudo limpiar storage:', e);
+        }
+      }
+
+      console.log('Continuando sin autenticación...');
+      return Promise.resolve(false);
+    });
+  };
+}
 
 
   
@@ -51,12 +216,7 @@ import { environment } from '../environments/environment';
     Ng2SearchPipeModule,
     SharedModule,
     ScrollingModule,
-    AuthModule.forRoot({
-      domain: environment.auth0.domain,
-      clientId: environment.auth0.clientId
-     
-    }),
-    
+    KeycloakAngularModule
 
   ],
   exports: [
@@ -64,8 +224,20 @@ import { environment } from '../environments/environment';
   ],
   
 
-  
-  providers: [],
+
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService]
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

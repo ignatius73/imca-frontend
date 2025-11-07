@@ -5,7 +5,6 @@ import { Caja } from 'src/app/interfaces/caja';
 import { CajasService } from '../../services/cajas.service';
 import { excelData } from 'src/app/interfaces/excelData';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { AuthService } from '@auth0/auth0-angular';
 import { environment } from '../../../environments/environment';
 import { ExceljsService } from 'src/app/services/exceljs.service';
 
@@ -34,24 +33,17 @@ export class CajaComponent implements OnInit {
   hoy:Date;
 
  
-  constructor( public caja:CajasService, public route:Router, private fb:FormBuilder, public auth:AuthService,
-              @Inject(LOCALE_ID) private locale: string, public excelToXls:ExceljsService) { 
-   
-   
-   
+  constructor( public caja:CajasService, public route:Router, private fb:FormBuilder,
+              @Inject(LOCALE_ID) private locale: string, public excelToXls:ExceljsService) {
+
+
+
   }
 
   ngOnInit(): void {
-    this.auth.user$.subscribe( (resp) =>{
-     // if ( resp['email'] == environment.jana || resp['email'] == environment.gabo) {
-        this.valido = true;
-        this.crearFormulario();
-        this.caja.getMovimientos();
-    //  }
-     
-    });
-    
-    
+    this.valido = true;
+    this.crearFormulario();
+    this.caja.getMovimientos();
   }
 
   crearFormulario(){

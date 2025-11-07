@@ -2,9 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlumnosService } from 'src/app/services/alumnos.service';
-
-import { AuthService } from '@auth0/auth0-angular';
-
 import { RecibosService } from 'src/app/services/recibos.service';
 
 
@@ -26,10 +23,9 @@ export class UsuariosComponent implements OnInit {
 
 
 
-  constructor( private fb:FormBuilder, 
-               public alumnos:AlumnosService, 
-               private route:Router, 
-               public auth:AuthService,
+  constructor( private fb:FormBuilder,
+               public alumnos:AlumnosService,
+               private route:Router,
                public recibos:RecibosService ) {
 
 
@@ -37,14 +33,8 @@ export class UsuariosComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.auth.user$.subscribe( (resp) =>{
-        this.valido = true;
-        this.alumnos.getUsuarios();
-    
-    });
-
-
-
+    this.valido = true;
+    this.alumnos.getUsuarios();
   }
 
   cargarNuevoAlumno(){
