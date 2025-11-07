@@ -32,7 +32,12 @@ export class CajaComponent implements OnInit {
   excel: excelData = {};
   hoy:Date;
 
- 
+  // Paginación
+  paginaActual: number = 1;
+  itemsPorPagina: number = 20;
+  opcionesPorPagina: number[] = [10, 20, 50, 100];
+
+
   constructor( public caja:CajasService, public route:Router, private fb:UntypedFormBuilder,
               @Inject(LOCALE_ID) private locale: string, public excelToXls:ExceljsService) {
 
@@ -76,7 +81,8 @@ export class CajaComponent implements OnInit {
       }
 
       this.caja.getMovimientos();
-     
+      this.paginaActual = 1; // Volver a la primera página
+
 
     });
   }
@@ -92,9 +98,25 @@ export class CajaComponent implements OnInit {
 
  bajarxlsx(){
 
-   this.excel.title = "Caja Imca al día " + formatDate(Date.now(),'dd-MM-yyyy', this.locale); 
+   this.excel.title = "Caja Imca al día " + formatDate(Date.now(),'dd-MM-yyyy', this.locale);
    this.excel.headers = ['Fecha', 'Movimiento','Detalle','Importe','Recibo', 'Nombre', 'Apellido'];
    this.excel.data = this.caja.caja;
    this.excelToXls.exportExcel(this.excel);
+ }
+
+ // Métodos de paginación
+ get itemsPaginados(): Caja[] {
+   const inicio = (this.paginaActual - 1) * this.itemsPorPagina;
+   const fin = inicio + this.itemsPorPagina;
+   return this.caja.caja.slice(inicio, fin);
+ }
+
+ onPageChange(pagina: number): void {
+   this.paginaActual = pagina;
+ }
+
+ onItemsPerPageChange(items: number): void {
+   this.itemsPorPagina = items;
+   this.paginaActual = 1;
  }
 }

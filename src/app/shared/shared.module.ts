@@ -4,13 +4,14 @@ import { NavbarComponent } from '../components/navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { CabeceraComponent } from '../components/cabecera/cabecera.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { PaginatorComponent } from './paginator/paginator.component';
 
 
 
 
 
 @NgModule({
-  declarations: [ NavbarComponent, CabeceraComponent ],
+  declarations: [ NavbarComponent, CabeceraComponent, PaginatorComponent ],
   imports: [
     CommonModule,
     RouterModule,
@@ -18,6 +19,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     FormsModule
 
   ],
-  exports: [ NavbarComponent, CabeceraComponent ]
+  exports: [ NavbarComponent, CabeceraComponent, PaginatorComponent ]
 })
 export class SharedModule { }

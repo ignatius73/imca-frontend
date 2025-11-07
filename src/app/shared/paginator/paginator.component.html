@@ -1,0 +1,60 @@
+<div class="paginator-container" *ngIf="totalItems > 0">
+    <div class="paginator-content">
+        <!-- Información y selector de items por página -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex align-items-center gap-3">
+                <span>Mostrando {{ rangoInicio }} - {{ rangoFin }} de {{ totalItems }} registros</span>
+
+                <div class="d-flex align-items-center gap-2">
+                    <label for="itemsPerPage" class="mb-0">Items por página:</label>
+                    <select
+                        id="itemsPerPage"
+                        class="form-select form-select-sm"
+                        style="width: auto;"
+                        [value]="itemsPerPage"
+                        (change)="cambiarItemsPorPagina(+$any($event.target).value)">
+                        <option *ngFor="let option of itemsPerPageOptions" [value]="option">
+                            {{ option }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controles de paginación centrados -->
+        <div class="d-flex justify-content-center">
+            <nav aria-label="Paginación">
+                <ul class="pagination mb-0">
+                    <li class="page-item" [class.disabled]="currentPage === 1">
+                        <a class="page-link" (click)="cambiarPagina(currentPage - 1)" style="cursor: pointer;">
+                            Anterior
+                        </a>
+                    </li>
+
+                    <!-- Ellipsis inicio -->
+                    <li class="page-item disabled" *ngIf="mostrarEllipsisInicio">
+                        <span class="page-link">...</span>
+                    </li>
+
+                    <!-- Páginas visibles -->
+                    <li class="page-item" *ngFor="let p of paginasVisibles" [class.active]="p === currentPage">
+                        <a class="page-link" (click)="cambiarPagina(p)" style="cursor: pointer;">
+                            {{ p }}
+                        </a>
+                    </li>
+
+                    <!-- Ellipsis fin -->
+                    <li class="page-item disabled" *ngIf="mostrarEllipsisFin">
+                        <span class="page-link">...</span>
+                    </li>
+
+                    <li class="page-item" [class.disabled]="currentPage === totalPaginas">
+                        <a class="page-link" (click)="cambiarPagina(currentPage + 1)" style="cursor: pointer;">
+                            Siguiente
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

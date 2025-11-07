@@ -20,15 +20,19 @@ saldo:number = 0;
   getMovimientos(){
     this.obtieneMovimientos$()
       .subscribe( (resp) =>{
-        
-        this.caja = resp.devol.datos;
-        this.saldo = resp.devol.suma;
-       
-        
-      
-        
+
+        // Convertir importes a números para evitar concatenación
+        this.caja = resp.devol.datos.map((item: any) => ({
+          ...item,
+          importe: parseFloat(item.importe) || 0
+        }));
+        this.saldo = parseFloat(resp.devol.suma) || 0;
+
+
+
+
       })
-    
+
   }
   obtieneMovimientos$():Observable<any>{
     return this.http.get(`${ environment.apiUrl }/api/saldo`);
