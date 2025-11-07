@@ -1,23 +1,31 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { KeycloakService } from 'keycloak-angular';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { switchMap, take } from 'rxjs/operators';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private keycloak: KeycloakService) {}
+  constructor(private oidcSecurityService: OidcSecurityService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Add authorization header with bearer token if token exists
-    const token = this.keycloak.getToken();
-    if (token) {
-      req = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`
+    // Obtener el token de acceso desde angular-auth-oidc-client
+    return this.oidcSecurityService.getAccessToken().pipe(
+      take(1),
+      switchMap(token => {
+        if (token) {
+          // Clonar la request y agregar el token al header Authorization
+          const clonedReq = req.clone({
+            setHeaders: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          return next.handle(clonedReq);
         }
-      });
-    }
 
-    return next.handle(req);
+        // Si no hay token, continuar sin modificar la request
+        return next.handle(req);
+      })
+    );
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { KeycloakService } from 'keycloak-angular';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { environment } from '../../../environments/environment';
 import { Location } from '@angular/common';
 import { filter } from 'rxjs/operators';
@@ -17,25 +17,32 @@ export class NavbarComponent implements OnInit, OnDestroy {
   baseUrl: string;
   isLoggedIn = false;
   private routerSubscription?: Subscription;
+  private authSubscription?: Subscription;
 
   constructor(
     public router: Router,
-    private keycloakService: KeycloakService,
+    private oidcSecurityService: OidcSecurityService,
     public location: Location,
     private cdr: ChangeDetectorRef
   ) {
     this.baseUrl = window.location.origin;
   }
 
-  async ngOnInit(): Promise<void> {
-    // Verificar estado inicial
-    await this.updateLoginStatus();
+  ngOnInit(): void {
+    // Suscribirse al estado de autenticación
+    this.authSubscription = this.oidcSecurityService.isAuthenticated$.subscribe(
+      ({ isAuthenticated }) => {
+        this.isLoggedIn = isAuthenticated;
+        console.log('Navbar - Estado login:', this.isLoggedIn);
+        this.cdr.detectChanges();
+      }
+    );
 
     // Actualizar estado en cada cambio de ruta
     this.routerSubscription = this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
-        this.updateLoginStatus();
+        this.cdr.detectChanges();
       });
   }
 
@@ -43,35 +50,26 @@ export class NavbarComponent implements OnInit, OnDestroy {
     if (this.routerSubscription) {
       this.routerSubscription.unsubscribe();
     }
-  }
-
-  async updateLoginStatus(): Promise<void> {
-    try {
-      this.isLoggedIn = await this.keycloakService.isLoggedIn();
-      console.log('Navbar - Estado login actualizado:', this.isLoggedIn);
-      this.cdr.detectChanges();
-    } catch (error) {
-      console.error('Error al verificar estado de login:', error);
-      this.isLoggedIn = false;
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
     }
   }
 
   login(): void {
     console.log('Iniciando login desde navbar...');
-    this.keycloakService.login({
-      redirectUri: window.location.origin + '/'
-    });
+    this.oidcSecurityService.authorize();
   }
 
   logout(): void {
     console.log('Cerrando sesión...');
-    // Limpiar tokens del storage antes de hacer logout
-    sessionStorage.removeItem('kc_token');
-    sessionStorage.removeItem('kc_refreshToken');
-    sessionStorage.removeItem('kc_idToken');
+    // Limpiar la URL guardada
     sessionStorage.removeItem('redirectUrl');
-    console.log('💾 Tokens eliminados del storage');
-    this.keycloakService.logout(this.baseUrl);
+    console.log('💾 Storage limpiado');
+
+    // Hacer logout con redirección al origen
+    this.oidcSecurityService.logoff().subscribe(result => {
+      console.log('✅ Logout completado');
+    });
   }
 
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { KeycloakService } from 'keycloak-angular';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
 
 @Component({
   selector: 'app-root',
@@ -12,45 +12,33 @@ export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private keycloakService: KeycloakService
+    private oidcSecurityService: OidcSecurityService
   ) {}
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     console.log('🚀 AppComponent - ngOnInit ejecutándose...');
 
-    // Verificar si hay una URL guardada para redirigir después del login
-    const isLoggedIn = await this.keycloakService.isLoggedIn();
-    const redirectUrl = sessionStorage.getItem('redirectUrl');
+    // Verificar autenticación y manejar callback
+    this.oidcSecurityService.checkAuth().subscribe(({ isAuthenticated, userData, accessToken }) => {
+      console.log('AppComponent - Estado de autenticación:');
+      console.log('  ✓ Is Authenticated:', isAuthenticated);
+      console.log('  ✓ User Data:', userData);
+      console.log('  ✓ Has Access Token:', !!accessToken);
 
-    console.log('AppComponent - Estado inicial:');
-    console.log('  ✓ Logged in:', isLoggedIn);
-    console.log('  ✓ Redirect URL guardada:', redirectUrl);
+      if (isAuthenticated) {
+        console.log('🔐 Usuario autenticado:');
+        console.log('  ✓ Usuario:', userData?.preferred_username || userData?.email || 'N/A');
 
-    if (isLoggedIn) {
-      const kc = this.keycloakService.getKeycloakInstance();
-      console.log('🔐 Detalles de autenticación:');
-      console.log('  ✓ Token existe:', !!kc.token);
-      console.log('  ✓ Refresh token existe:', !!kc.refreshToken);
-      console.log('  ✓ Usuario:', kc.tokenParsed?.preferred_username || kc.tokenParsed?.email);
-      console.log('  ✓ Token expira en (segundos):', kc.tokenParsed?.exp ? kc.tokenParsed.exp - Math.floor(Date.now() / 1000) : 'N/A');
-
-      // Verificar storage
-      console.log('💾 Verificando storage:');
-      console.log('  ✓ SessionStorage keys:', Object.keys(sessionStorage));
-      console.log('  ✓ LocalStorage keys:', Object.keys(localStorage));
-
-      if (redirectUrl) {
-        console.log('➡️ Redirigiendo a URL guardada:', redirectUrl);
-        // Limpiar la URL guardada
-        sessionStorage.removeItem('redirectUrl');
-        // Redirigir a la URL original
-        await this.router.navigateByUrl(redirectUrl);
-        console.log('✅ Navegación completada');
+        // Verificar si hay una URL guardada para redirigir después del login
+        const redirectUrl = sessionStorage.getItem('redirectUrl');
+        if (redirectUrl) {
+          console.log('➡️ Redirigiendo a URL guardada:', redirectUrl);
+          sessionStorage.removeItem('redirectUrl');
+          this.router.navigateByUrl(redirectUrl);
+        }
       } else {
-        console.log('ℹ️ No hay URL de redirección guardada, quedándose en ruta actual');
+        console.log('ℹ️ Usuario no autenticado');
       }
-    } else {
-      console.log('⚠️ Usuario NO autenticado en AppComponent');
-    }
+    });
   }
 }
