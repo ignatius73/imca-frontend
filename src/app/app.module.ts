@@ -64,6 +64,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
       },
       initOptions: {
         onLoad: 'check-sso',
+        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
         checkLoginIframe: false,
         pkceMethod: 'S256',
         flow: 'standard',
@@ -74,6 +75,9 @@ function initializeKeycloak(keycloak: KeycloakService) {
         // Agregar logging para debug
         enableLogging: true
       },
+      enableBearerInterceptor: true,
+      bearerPrefix: 'Bearer',
+      bearerExcludedUrls: ['/assets', '/clients/public'],
       shouldAddToken: (request) => {
         const { url } = request;
         return url.startsWith(environment.apiUrl);
@@ -108,20 +112,20 @@ function initializeKeycloak(keycloak: KeycloakService) {
         });
       }
 
-      // Manejar redirección después del login exitoso
+      // Manejar limpieza de URL después del login exitoso
       if (hasAuthParams && authenticated) {
-        console.log('🧹 Limpiando parámetros de URL y redirigiendo...');
+        console.log('🧹 Limpiando parámetros de URL...');
 
-        // Obtener la URL a la que queremos redirigir
-        const redirectUrl = sessionStorage.getItem('redirectUrl') || '/home';
-        console.log('📍 URL de redirección:', redirectUrl);
+        // Limpiar los parámetros de autenticación de la URL sin recargar la página
+        // Esto es importante para que el usuario no vea los parámetros de OAuth en la URL
+        if (window.history && window.history.replaceState) {
+          const cleanUrl = window.location.origin + window.location.pathname;
+          window.history.replaceState({}, document.title, cleanUrl);
+          console.log('✅ URL limpiada:', cleanUrl);
+        }
 
-        // Limpiar parámetros y redirigir
-        setTimeout(() => {
-          sessionStorage.removeItem('redirectUrl');
-          // Navegar a la URL destino
-          window.location.href = redirectUrl;
-        }, 100);
+        // NO redirigir aquí - dejar que el AppComponent o el routing normal maneje la navegación
+        // La redirección se manejará en el AppComponent después de la inicialización
       } else if (hasAuthParams && !authenticated) {
         console.warn('⚠️ Había parámetros de auth pero NO se autenticó!');
         debugger;
