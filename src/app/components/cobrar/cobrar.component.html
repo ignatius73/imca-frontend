@@ -95,11 +95,13 @@
                     </div>
                     <br>
                     <div class="botonera" data-html2canvas-ignore>
-                        <button class="btn btn-outline-primary" type="button" (click)="agregarFila(valor)">Agregar Fila</button>
+                        <button class="btn btn-outline-primary" type="button" (click)="agregarFila(valor)" [disabled]="cobrado">Agregar Fila</button>
 
 
 
-                        <button type="submit" class="btn btn-outline-primary" (click)="cobrar()">Cobrar</button>
+                        <button type="submit" class="btn btn-outline-primary" (click)="cobrar()" [disabled]="procesando || cobrado">
+                            {{ procesando ? 'Procesando...' : (cobrado ? 'Cobrado' : 'Cobrar') }}
+                        </button>
 
 
                         <button *ngIf="recibo.nroRecibo !== undefined" type="submit" class="btn btn-outline-primary" (click)="imprimir()">Imprimir</button>

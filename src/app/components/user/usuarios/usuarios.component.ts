@@ -1,52 +1,31 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlumnosService } from 'src/app/services/alumnos.service';
 import { RecibosService } from 'src/app/services/recibos.service';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-usuarios',
   templateUrl: './usuarios.component.html',
   styleUrls: ['./usuarios.component.css']
 })
-export class UsuariosComponent implements OnInit, OnDestroy {
+export class UsuariosComponent implements OnInit {
   existe:Boolean = false;
   filtrar:string;
-  valido:Boolean = false;
   loading:Boolean = false;
   respuesta:any;
   errores:any = '';
-  private authSubscription?: Subscription;
 
   constructor(
     private fb:UntypedFormBuilder,
     public alumnos:AlumnosService,
     private route:Router,
-    public recibos:RecibosService,
-    private oidcSecurityService: OidcSecurityService
+    public recibos:RecibosService
   ) {}
 
   ngOnInit(): void {
-    // Suscribirse al estado de autenticación
-    this.authSubscription = this.oidcSecurityService.isAuthenticated$.subscribe(
-      ({ isAuthenticated }) => {
-        this.valido = isAuthenticated;
-
-        // Solo cargar usuarios si está autenticado
-        if (isAuthenticated) {
-          this.alumnos.getUsuarios();
-        }
-      }
-    );
-  }
-
-  ngOnDestroy(): void {
-    // Limpiar suscripción para evitar memory leaks
-    if (this.authSubscription) {
-      this.authSubscription.unsubscribe();
-    }
+    // El AuthGuard garantiza que solo usuarios autenticados lleguen aquí
+    this.alumnos.getUsuarios();
   }
 
   cargarNuevoAlumno(){

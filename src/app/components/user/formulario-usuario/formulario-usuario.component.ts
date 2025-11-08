@@ -77,13 +77,7 @@ export class FormularioUsuarioComponent implements OnInit {
     this.alumnos.editaUsuario$(this.alumno, this.alumnoActual).subscribe( ( resp) =>{
       if ( resp['errors'] ){
         this.errores = resp['errors'];
-        
-
-
-
       }else{
-        console.log(resp)
-        this.alumno
         this.route.navigate(['/user'])
       }
 

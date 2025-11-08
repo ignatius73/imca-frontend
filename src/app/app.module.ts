@@ -39,10 +39,10 @@ import { environment } from '../environments/environment';
     AuthModule.forRoot({
       config: {
         authority: `${environment.keycloak.url}/realms/${environment.keycloak.realm}`,
-        redirectUrl: window.location.origin,
-        postLogoutRedirectUri: window.location.origin,
+        redirectUrl: `${window.location.origin}/`,
+        postLogoutRedirectUri: `${window.location.origin}/`,
         clientId: environment.keycloak.clientId,
-        scope: 'openid profile email', // scopes requeridos
+        scope: 'openid profile email offline_access', // scopes requeridos
         responseType: 'code', // Authorization Code Flow con PKCE
         silentRenew: true,
         useRefreshToken: true,
@@ -50,10 +50,11 @@ import { environment } from '../environments/environment';
         logLevel: LogLevel.Debug, // Cambiar a LogLevel.Warn en producción
         ignoreNonceAfterRefresh: true,
         // Configuración de storage automática - persiste en sessionStorage por defecto
-        secureRoutes: [environment.apiUrl],
         // Auto-login deshabilitado para permitir acceso a rutas públicas
         autoUserInfo: true,
-        triggerAuthorizationResultEvent: true
+        triggerAuthorizationResultEvent: true,
+        // No redirigir automáticamente en unauthorized
+        unauthorizedRoute: '/home'
       },
     })
   ],

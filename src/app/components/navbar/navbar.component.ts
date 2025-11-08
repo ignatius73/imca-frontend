@@ -62,8 +62,17 @@ export class NavbarComponent implements OnInit, OnDestroy {
     // Limpiar la URL guardada
     sessionStorage.removeItem('redirectUrl');
 
-    // Hacer logout con redirección al origen
-    this.oidcSecurityService.logoff().subscribe();
+    // Hacer logout usando la configuración del módulo (postLogoutRedirectUri)
+    this.oidcSecurityService.logoff().subscribe({
+      next: (result) => {
+        // Logout exitoso
+      },
+      error: (error) => {
+        // En caso de error, limpiar sesión local y redirigir manualmente
+        this.oidcSecurityService.logoffLocal();
+        this.router.navigate(['/home']);
+      }
+    });
   }
 
 }

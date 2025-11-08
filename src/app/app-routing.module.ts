@@ -13,8 +13,8 @@ import { ROLES } from './config/roles.config';
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component : PortadaComponent },
-  // La ruta /user NO está protegida para permitir acceso al botón de login
-  { path: 'user', component : UsuariosComponent },
+  // La ruta /user ahora está protegida para guardar URL y redirigir después del login
+  { path: 'user', component : UsuariosComponent, canActivate: [AuthGuard] },
   // Las sub-rutas SÍ están protegidas porque requieren datos de usuarios autenticados
   { path: 'user/editarUsuario', component : EditarUsuarioComponent, canActivate: [AuthGuard] },
   { path: 'user/nuevoUsuario', component : NuevoUsuarioComponent, canActivate: [AuthGuard] },

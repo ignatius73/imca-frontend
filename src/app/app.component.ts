@@ -16,14 +16,19 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Verificar autenticación y manejar callback
+    // Verificar autenticación al iniciar la app
     this.oidcSecurityService.checkAuth().subscribe(({ isAuthenticated }) => {
+      // Si está autenticado y hay una URL guardada, redirigir a ella
       if (isAuthenticated) {
-        // Verificar si hay una URL guardada para redirigir después del login
         const redirectUrl = sessionStorage.getItem('redirectUrl');
+
         if (redirectUrl) {
           sessionStorage.removeItem('redirectUrl');
-          this.router.navigateByUrl(redirectUrl);
+
+          // Pequeño delay para asegurar que Angular esté listo
+          setTimeout(() => {
+            this.router.navigateByUrl(redirectUrl);
+          }, 50);
         }
       }
     });

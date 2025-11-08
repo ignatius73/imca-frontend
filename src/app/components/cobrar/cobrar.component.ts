@@ -43,6 +43,8 @@ export class CobrarComponent implements OnInit {
   fecha: Date;
   print: boolean = false;
   movCaja: Caja = {};
+  procesando: boolean = false;
+  cobrado: boolean = false;
 
 
 
@@ -114,6 +116,12 @@ procesar(){}
   }
 
   cobrar( ){
+    // Prevenir doble click
+    if (this.procesando || this.cobrado) {
+      return;
+    }
+
+    this.procesando = true;
 
     this.recibo.idUsuario = this.alumnos.alumno._id;
     this.recibo.apellidoUsuario = this.alumnos.alumno.apellido;
@@ -138,18 +146,26 @@ procesar(){}
 
     this.recibos.obtieneRecibo$( this.recibo ).subscribe( resp =>{
       if ( resp['errors'] ){
-        console.log(resp['errors']);
+        this.procesando = false;
+        return;
       }
-      console.log(resp);
       this.recibo.nroRecibo = resp.recibo.nroRecibo;
       this.movimientoCaja();
       this.caja.nuevoMovimiento$( this.movCaja ).subscribe( (resp) =>{
 
         this.print = true;
+        this.procesando = false;
+        this.cobrado = true;
+    }, error => {
+        // En caso de error en movimiento de caja
+        this.procesando = false;
     })
 
 
 
+    }, error => {
+        // En caso de error al obtener recibo
+        this.procesando = false;
     })
 
 

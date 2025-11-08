@@ -34,7 +34,7 @@ export class CajaComponent implements OnInit {
 
   // Paginación
   paginaActual: number = 1;
-  itemsPorPagina: number = 20;
+  itemsPorPagina: number = 10;
   opcionesPorPagina: number[] = [10, 20, 50, 100];
 
 
@@ -74,9 +74,7 @@ export class CajaComponent implements OnInit {
     this.movcaja.fecha = new Date();
     this.movcaja.importe = parseFloat( this.forma.controls['importe'].value);
     this.caja.nuevoMovimiento$( this.movcaja ).subscribe( (resp) =>{
-      console.log(resp);
       if ( resp['errors']){
-        console.log(resp['errors']);
         this.errores = resp['errors'];
       }
 
